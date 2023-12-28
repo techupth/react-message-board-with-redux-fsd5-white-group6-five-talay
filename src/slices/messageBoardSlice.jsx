@@ -15,6 +15,7 @@ export const messageSlice = createSlice({
     },
     addMessage: (state, action) => {
       state.list.push({ text: state.input });
+      state.input = "";
     },
     deleteMessage: (state, action) => {
       state.list.splice(action.payload, 1);

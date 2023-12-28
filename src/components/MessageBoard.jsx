@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { inputMessage, addMessage, deleteMessage } from "../slices/messageBoardSlice";
 
 function MessageBoard() {
-  const messageList = useSelector((state) => {
-    return state.message.list;
+  const message = useSelector((state) => {
+    return state.message;
   });
 
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ function MessageBoard() {
             onChange={(event) => {
               dispatch(inputMessage(event.target.value));
             }}
+            value={message.input}
           />
         </label>
         <button
@@ -32,7 +33,7 @@ function MessageBoard() {
           Submit
         </button>
       </div>
-      {messageList.map((message, index) => {
+      {message.list.map((message, index) => {
         return (
           <div className="board" key={index}>
             <div className="message">
