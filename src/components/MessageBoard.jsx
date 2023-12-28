@@ -1,23 +1,55 @@
+import { useSelector, useDispatch } from "react-redux";
+import {
+  newMessage,
+  messageList,
+  deleteMessage,
+} from "../slices/messageBoardSlice";
 function MessageBoard() {
+  const postMessage = useSelector((state) => {
+    return state.message.list;
+  });
+  const dispatch = useDispatch();
+  console.log(postMessage);
   return (
     <div className="app-wrapper">
-      <h1 class="app-title">Message board</h1>
-      <div class="message-input-container">
+      <h1 className="app-title">Message board</h1>
+      <div className="message-input-container">
         <label>
           <input
             id="message-text"
             name="message-text"
             type="text"
             placeholder="Enter message here"
+            onChange={(e) => {
+              dispatch(newMessage(e.target.value));
+            }}
           />
         </label>
-        <button className="submit-message-button">Submit</button>
+        <button
+          className="submit-message-button"
+          onClick={() => {
+            dispatch(messageList());
+          }}
+        >
+          Submit
+        </button>
       </div>
-      <div class="board">
-        <div className="message">
-          <h1>Hello all ! This is first message.</h1>
-          <button className="delete-button">x</button>
-        </div>
+      <div className="board">
+        {postMessage.map((message, index) => {
+          return (
+            <div className="message" key={index}>
+              <h1>{message}</h1>
+              <button
+                className="delete-button"
+                onClick={() => {
+                  dispatch(deleteMessage(index));
+                }}
+              >
+                x
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
